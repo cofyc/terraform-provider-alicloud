@@ -104,9 +104,15 @@ func resourceAlicloudLogAlert() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"type": {
-							Type:         schema.TypeString,
-							Required:     true,
-							ValidateFunc: validation.StringInSlice([]string{"SMS", "DingTalk", "Email"}, false),
+							Type:     schema.TypeString,
+							Required: true,
+							ValidateFunc: validation.StringInSlice([]string{
+								sls.NotificationTypeSMS,
+								sls.NotificationTypeWebhook,
+								sls.NotificationTypeDingTalk,
+								sls.NotificationTypeEmail,
+								sls.NotificationTypeMessageCenter},
+								false),
 						},
 						"content": {
 							Type:     schema.TypeString,
