@@ -77,13 +77,13 @@ func resourceAlicloudElasticsearch() *schema.Resource {
 				Optional:     true,
 			},
 
-			"period": {
-				Type:             schema.TypeInt,
-				ValidateFunc:     validation.IntInSlice([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36}),
-				Optional:         true,
-				Default:          1,
-				DiffSuppressFunc: PostPaidDiffSuppressFunc,
-			},
+			// "period": {
+				// Type:             schema.TypeInt,
+				// ValidateFunc:     validation.IntInSlice([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36}),
+				// Optional:         true,
+				// Default:          1,
+				// DiffSuppressFunc: PostPaidDiffSuppressFunc,
+			// },
 
 			// Data node configuration
 			"data_node_amount": {
@@ -485,13 +485,14 @@ func resourceAlicloudElasticsearchUpdate(d *schema.ResourceData, meta interface{
 		d.SetPartial("instance_charge_type")
 	}
 
-	if d.Get("instance_charge_type").(string) == string(PrePaid) && d.HasChange("period") {
-		if err := renewInstance(d, meta); err != nil {
-			return WrapError(err)
-		}
+	// Ignore period field
+	// if d.Get("instance_charge_type").(string) == string(PrePaid) && d.HasChange("period") {
+		// if err := renewInstance(d, meta); err != nil {
+			// return WrapError(err)
+		// }
 
-		d.SetPartial("period")
-	}
+		// d.SetPartial("period")
+	// }
 
 	if d.HasChange("data_node_amount") {
 
@@ -607,16 +608,17 @@ func buildElasticsearchCreateRequest(d *schema.ResourceData, meta interface{}) (
 
 	content["paymentType"] = strings.ToLower(d.Get("instance_charge_type").(string))
 	if d.Get("instance_charge_type").(string) == string(PrePaid) {
-		paymentInfo := make(map[string]interface{})
-		if d.Get("period").(int) >= 12 {
-			paymentInfo["duration"] = d.Get("period").(int) / 12
-			paymentInfo["pricingCycle"] = string(Year)
-		} else {
-			paymentInfo["duration"] = d.Get("period").(int)
-			paymentInfo["pricingCycle"] = string(Month)
-		}
+		// Igoring period field
+		// paymentInfo := make(map[string]interface{})
+		// if d.Get("period").(int) >= 12 {
+			// paymentInfo["duration"] = d.Get("period").(int) / 12
+			// paymentInfo["pricingCycle"] = string(Year)
+		// } else {
+			// paymentInfo["duration"] = d.Get("period").(int)
+			// paymentInfo["pricingCycle"] = string(Month)
+		// }
 
-		content["paymentInfo"] = paymentInfo
+		// content["paymentInfo"] = paymentInfo
 	}
 
 	content["nodeAmount"] = d.Get("data_node_amount")
