@@ -144,6 +144,7 @@ If it is a multi-zone and `vswitch_id` is specified, the vswitch must in one of 
         - 10-GB increments. Unit: GB.
 * `backup_period` - (Optional, Available in 1.42.0+) MongoDB Instance backup period. It is required when `backup_time` was existed. Valid values: [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]. Default to [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
 * `backup_time` - (Optional, Available in 1.42.0+) MongoDB instance backup time. It is required when `backup_period` was existed. In the format of HH:mmZ- HH:mmZ. Time setting interval is one hour. If not set, the system will return a default, like "23:00Z-24:00Z".
+* `tags` - (Optional, Available in v1.105.0+) A mapping of tags to assign to the resource.
 
 ## Attributes Reference
 
